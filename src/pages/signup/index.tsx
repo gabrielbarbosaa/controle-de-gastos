@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as S from './style';
 import { 
     Card,
@@ -7,7 +7,8 @@ import {
     ButtonProps, 
     createPolymorphicComponent,
     Select,
-    Button
+    Button,
+    NumberInput
 } from '@mantine/core';
 import { 
     IconArrowLeft,
@@ -17,11 +18,62 @@ import {
     IconEye,
     IconEyeOff
 } from '@tabler/icons';
+import { useCity, useUf } from '../../hooks';
+import { IUf } from '../../interfaces/IUf';
+import { ICity } from '../../interfaces/ICity';
+import { useForm, Controller } from 'react-hook-form';
+import { FormUser } from './type';
+import { useMutation } from '@tanstack/react-query';
+import { postUser } from '../../hooks/useUser';
 
 const StyledButton = createPolymorphicComponent<'button', ButtonProps>(S.Button);
 
 const SignUp: React.FC = () => {
     const [ type, setType ] = useState<string>('password');
+    const [ uf, setUf ] = useState([]);
+    const [ city, setCity ] = useState([]);
+    const [ idState, setIdState ] = useState(0);
+    const { data: listUf } = useUf();
+    const { data: listCity } = useCity(idState);
+
+    const {
+        handleSubmit,
+        register,
+        control
+    } = useForm<FormUser>();
+
+    const { mutate: newUser } = useMutation(postUser);
+
+    const onSubmit = (data: FormUser) => {
+        newUser(data)
+    };
+
+    useEffect(() => {
+        const aux:any = [];
+
+        listUf?.forEach((state: IUf) => {
+            aux.push({
+                value: state.id,
+                label: state.nome
+            })
+        })
+        setUf(aux)
+
+    }, [listUf]);
+
+    useEffect(() => {
+        const aux:any = [];
+
+        listCity?.forEach((state: ICity) => {
+            aux.push({
+                value: state.id,
+                label: state.nome
+            })
+        })
+        setCity(aux)
+
+    }, [listCity, idState]);
+
     return (
         <S.Container>
             <Card
@@ -39,16 +91,11 @@ const SignUp: React.FC = () => {
                     </Group>
                 </Card.Section>
                 <Card.Section>
-                    <form>
-                        <Group>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <Group grow>
                             <Input
+                                {...register('name')}
                                 placeholder="Nome"
-                                size="md"
-                                mb={20}
-                                type="text"
-                            />
-                            <Input
-                                placeholder="Sobrenome"
                                 size="md"
                                 mb={20}
                                 type="text"
@@ -58,34 +105,49 @@ const SignUp: React.FC = () => {
                                 size="md"
                                 mb={20}
                                 type="number"
+                                {...register('age')}
                             />
                         </Group>
                         <Group grow>
-                            <Select 
-                                data={['RS', 'RJ', 'SP']}
+                            <Select  
+                                {...register('state')}
+                                searchable
                                 size="md"
                                 mb={20}
-                                placeholder="Estado"
-                                searchable
+                                placeholder='Estado'
+                                data={uf}
                                 dropdownPosition="bottom"
+                                onChange={(e: any) => {
+                                    setIdState(e)
+                                }}
                             />
-                            <Select 
-                                data={['Porto Alegre', 'Rio de janeiro', 'São Paulo']}
-                                size="md"
-                                mb={20}
-                                placeholder="Cidade"
-                                searchable
-                                dropdownPosition="bottom"
+                            <Controller 
+                                name='city'
+                                control={control}
+                                render={({field: { onChange, value }})=> (
+                                    <Select  
+                                        searchable
+                                        size="md"
+                                        mb={20}
+                                        placeholder='Cidade'
+                                        data={city}
+                                        dropdownPosition="bottom"
+                                        onChange={onChange}
+                                        value={value}
+                                    />
+                                )}
                             />
                         </Group>
                         <Group grow>
                             <Input
+                                {...register('email')}
                                 icon={<IconAt width={20}/>}
                                 placeholder="E-mail"
                                 size="md"
                                 mb={20}
                             />
                             <Input
+                                {...register('password')}
                                 icon={type === 'password' ? <IconLock width={20}/> : <IconLockOpen width={20}/>}
                                 placeholder="Senha"
                                 type={type}
@@ -112,6 +174,7 @@ const SignUp: React.FC = () => {
                             position="center" 
                         >
                             <StyledButton 
+                                type='submit'
                                 variant='outline'
                                 mb={15}
                                 px={30}

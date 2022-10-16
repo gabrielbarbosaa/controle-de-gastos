@@ -1,6 +1,5 @@
 import React from 'react';
 import { MantineProvider as StyleProvider } from '@mantine/core';
-import dark from './theme/dark';
 
 interface IProps {
     children: React.ReactNode

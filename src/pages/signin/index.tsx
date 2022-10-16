@@ -17,11 +17,29 @@ import {
     IconEye,
     IconEyeOff
 } from '@tabler/icons';
+import { useAuthorize } from '../../hooks';
+import { useMutation } from '@tanstack/react-query';
+import { IAuthorize } from '../../interfaces/IAuthorize';
+import { useForm } from 'react-hook-form';
+import { FormAuth } from './type';
 
 const StyledButton = createPolymorphicComponent<'button', ButtonProps>(S.Button);
 
 const SignIn: React.FC = () => {
     const [ type, setType ] = useState<string>('password');
+    const { mutate: postMudate } = useMutation(useAuthorize);
+
+    const {
+        handleSubmit,
+        register
+    } = useForm<FormAuth>();
+
+
+    const onSubmit = (data: IAuthorize) => {
+        console.log(data)
+        postMudate(data)
+    }
+
     return (
         <S.Container>
             <Card 
@@ -43,14 +61,16 @@ const SignIn: React.FC = () => {
                 <Card.Section>
                     <h3>Entrar</h3>
 
-                    <form>
+                    <form onSubmit={handleSubmit(onSubmit)}>
                         <Input
+                            {...register('email')}
                             icon={<IconAt width={20}/>}
                             placeholder="E-mail"
                             size="md"
                             mb={20}
                         />
                         <Input
+                            {...register('password')}
                             icon={type === 'password' ? <IconLock width={20}/> : <IconLockOpen width={20}/>}
                             placeholder="Senha"
                             type={type}
@@ -74,6 +94,7 @@ const SignIn: React.FC = () => {
                         />
 
                         <StyledButton 
+                            type='submit'
                             variant='outline'
                             mb={15}
                             fullWidth
