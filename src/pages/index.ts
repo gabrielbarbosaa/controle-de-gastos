@@ -4,3 +4,5 @@ export { default as Receitas } from './receitas';
 export { default as Relatórios } from './relatorios';
 export { default as SignIn } from './signin';
 export { default as SignUp } from './signup';
+export { default as Notificacoes } from './notificacoes';
+export { default as Mensagens } from './mensagens';

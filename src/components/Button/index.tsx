@@ -3,16 +3,17 @@ import { ButtonProps, createPolymorphicComponent } from '@mantine/core';
 import * as S from './style';
 
 interface IProps {
-    children: React.ReactNode
+    children: React.ReactNode,
+    onClick?: () => void
 }
 
 const StyledButton = createPolymorphicComponent<'button', ButtonProps>(S.Button);
 
-const Button: React.FC<IProps> = ({children}) => {
+const Button: React.FC<IProps> = ({children, onClick}) => {
     return (
         <StyledButton
-            variant="outline"
             radius="md"
+            onClick={onClick}
         >
             {children}
         </StyledButton>

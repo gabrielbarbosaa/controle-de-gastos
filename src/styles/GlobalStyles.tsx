@@ -16,8 +16,10 @@ const MantineProvider:React.FC <IProps> = ({children}) => {
                     blue: ['#2DAAFC'],
                     purple: ['#4E23FA', '#4E23FA80'],
                     yellow: ['#fACB23'],
+                    green: ['#00d115'],
+                    red: ['#c90000'],
 
-                    black: ['#1A1A1A'],
+                    black: ['#1A1A1A', '#1f1f1f'],
                     white: ['#FFFFFF', '#E1E1E1'],
                 }
             }}

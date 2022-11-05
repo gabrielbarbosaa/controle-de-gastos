@@ -16,14 +16,14 @@ function App() {
     <QueryClientProvider client={queryClient} >
       <MantineProvider>
         <Router>
-          <PublicRoutes />
-          {/* <S.Container>
+          {/* <PublicRoutes /> */}
+          <S.Container>
             <Header />
             <Aside />
             <S.Content>
               <AuthRoutes/>
             </S.Content>
-          </S.Container> */}
+          </S.Container>
         </Router>
       </MantineProvider>
     </QueryClientProvider>
