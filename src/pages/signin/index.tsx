@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import * as S from './style';
 import {
     Card, 
@@ -19,26 +19,35 @@ import {
 } from '@tabler/icons';
 import { useAuthorize } from '../../hooks';
 import { useMutation } from '@tanstack/react-query';
-import { IAuthorize } from '../../interfaces/IAuthorize';
 import { useForm } from 'react-hook-form';
 import { FormAuth } from './type';
+import { queryClient } from '../../services';
+import { useNavigate  } from 'react-router-dom';
+import { AuthContext } from '../../context';
 
 const StyledButton = createPolymorphicComponent<'button', ButtonProps>(S.Button);
 
 const SignIn: React.FC = () => {
     const [ type, setType ] = useState<string>('password');
-    const { mutate: postMudate } = useMutation(useAuthorize);
+    let navigate = useNavigate ();
+    const context = useContext(AuthContext);
 
-    const {
-        handleSubmit,
-        register
-    } = useForm<FormAuth>();
+    console.log(context);
 
+    const { mutate: postAuthorize } = useMutation(useAuthorize, {
+        onSuccess: (resp) => {
+            queryClient.invalidateQueries(['user'])
+            localStorage.setItem("token", resp.token);
+            localStorage.setItem("user", JSON.stringify(resp.user));
+            navigate('/dashboard')
+        }
+    });
 
-    const onSubmit = (data: IAuthorize) => {
-        console.log(data)
-        postMudate(data)
-    }
+    const { handleSubmit, register } = useForm<FormAuth>();
+
+    const onSubmit = (data: FormAuth) => { 
+        postAuthorize(data)
+    };
 
     return (
         <S.Container>
@@ -120,7 +129,7 @@ const SignIn: React.FC = () => {
                 </Card.Section>
             </Card>
         </S.Container>
-    )
-}
+    );
+};
 
 export default SignIn;

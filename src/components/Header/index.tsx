@@ -6,9 +6,11 @@ import {
     IconSun, 
     IconMoonStars
 } from '@tabler/icons';
+import { useNavigate  } from 'react-router-dom';
 
 const Header: React.FC = () => {
     const theme = useMantineTheme();
+    let navigate = useNavigate ();
     return (
         <S.Container>
             <Switch
@@ -22,7 +24,14 @@ const Header: React.FC = () => {
                 <p>Bem vindo novamente</p>
                 <b>Gabriel </b>
             </div>
-            <button type="button">
+            <button 
+                type="button"
+                onClick={() => {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("user");
+                    navigate('/')
+                }}
+            >
                 <p>Sair</p>
                 <IconLogout />
             </button>

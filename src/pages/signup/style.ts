@@ -10,6 +10,10 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+
+    > div {
+        max-width: 560px;
+    }
 `;
 
 export const BackButton = styled(NavLink)`

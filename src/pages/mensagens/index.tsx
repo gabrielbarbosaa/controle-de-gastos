@@ -1,12 +1,12 @@
 import React from 'react';
 import * as S from './style';
 
-const Notificacoes: React.FC = () => {
+const Mensagem: React.FC = () => {
     return (
         <S.Container>
-            <h1>Notificacoes</h1>
+            <h1>Mensagem</h1>
         </S.Container>
     )
 }
 
-export default Notificacoes;
+export default Mensagem;

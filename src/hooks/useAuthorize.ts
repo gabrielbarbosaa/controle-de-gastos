@@ -1,9 +1,7 @@
 import { api } from "../services";
-import { IAuthorize } from '../interfaces/IAuthorize';
-import { useQuery } from "@tanstack/react-query";
+import { IAuthorize, IUserAuth } from '../interfaces/IAuthorize';
 
-export const useAuthorize = (data: IAuthorize) => {
-    const resp = api.post<IAuthorize>('/authorize', data)
-
-    return resp;
+export const useAuthorize = async (data: IAuthorize):Promise<IUserAuth> => {
+    const resp = await api.post<IUserAuth>('/authorize', data)
+    return resp.data;
 }
