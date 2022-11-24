@@ -13,22 +13,13 @@ import {
 
 const AuthRoutes: React.FC = () => {
 
-    let token = localStorage.getItem("token")
-
-    const ProtectedRoute = ({ children }: any) => {
-        if (!token) {
-          return <Navigate to="/" replace />;
-        }
-        return children;
-      };
-
     const routes = [
-        { id: 1, path: '/dashboard', component: <ProtectedRoute> <Dashboard /> </ProtectedRoute>},
-        { id: 2, path: '/despesas', component: <ProtectedRoute> <Despesas /> </ProtectedRoute>},
-        { id: 3, path: '/receita', component: <ProtectedRoute> <Receitas /> </ProtectedRoute>},
-        { id: 4, path: '/configuracoes', component: <ProtectedRoute> <Configuracao /> </ProtectedRoute>},
-        { id: 5, path: '/mensagens', component: <ProtectedRoute> <Mensagens /> </ProtectedRoute>},
-        { id: 6, path: '/notificacoes', component: <ProtectedRoute> <Notificacoes /> </ProtectedRoute>},
+        { id: 1, path: '/dashboard', component: <Dashboard />},
+        { id: 2, path: '/despesas', component: <Despesas />},
+        { id: 3, path: '/receita', component: <Receitas />},
+        { id: 4, path: '/configuracoes', component: <Configuracao />},
+        { id: 5, path: '/mensagens', component: <Mensagens />},
+        { id: 6, path: '/notificacoes', component: <Notificacoes />},
     ];
 
     return (

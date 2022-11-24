@@ -32,21 +32,11 @@ const SignIn: React.FC = () => {
     let navigate = useNavigate ();
     const context = useContext(AuthContext);
 
-    console.log(context);
-
-    const { mutate: postAuthorize } = useMutation(useAuthorize, {
-        onSuccess: (resp) => {
-            queryClient.invalidateQueries(['user'])
-            localStorage.setItem("token", resp.token);
-            localStorage.setItem("user", JSON.stringify(resp.user));
-            navigate('/dashboard')
-        }
-    });
-
     const { handleSubmit, register } = useForm<FormAuth>();
+    console.log(context)
 
     const onSubmit = (data: FormAuth) => { 
-        postAuthorize(data)
+        context.postAuthorize(data)
     };
 
     return (
@@ -107,6 +97,11 @@ const SignIn: React.FC = () => {
                             variant='outline'
                             mb={15}
                             fullWidth
+                            onClick={() => {
+                                if(context.signed === true){
+                                    navigate('/dashboard')
+                                }
+                            }}
                         >
                             Entrar
                         </StyledButton>
