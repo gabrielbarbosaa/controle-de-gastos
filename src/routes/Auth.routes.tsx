@@ -24,11 +24,9 @@ const AuthRoutes: React.FC = () => {
 
     return (
         <Routes>
-            {routes.map((id: any) => {
-                return (
-                    <Route path={id.path} element={id.component} key={id.id}/>
-                )
-            })}
+            {routes.map((id: any) => (
+                <Route path={id.path} element={id.component} key={id.id}/>
+            ))}
         </Routes>
     );
 };

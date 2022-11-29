@@ -15,20 +15,23 @@ import AuthContext from './context/auth';;
 
 const App: React.FC = () => {
   const context  = useContext(AuthContext);
+  console.log(context.signed, 'singed app')
 
   return (
     <QueryClientProvider client={queryClient} >
       <MantineProvider>
         <AuthProvider>
           <Router>
-            {context.signed === true
-              ? <S.Container>
-                  <Header />
-                  <Aside />
-                  <S.Content>
-                    <AuthRoutes/>
-                  </S.Content>
-                </S.Container>
+            {context.signed
+              ? (
+                  <S.Container>
+                    <Header />
+                    <Aside />
+                    <S.Content>
+                      <AuthRoutes/>
+                    </S.Content>
+                  </S.Container>
+                )
               : <PublicRoutes />
             }
           </Router>

@@ -39,6 +39,7 @@ export const AuthProvider: React.FC <IProps> = ({children}) => {
             api.defaults.headers.Authorization = `Bearer ${resp.token}`;
             localStorage.setItem('@App:user', JSON.stringify(resp.user));
             localStorage.setItem('@App:token', resp.token);
+            console.log(resp)
         }
     });
 
