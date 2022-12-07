@@ -14,24 +14,25 @@ import { AuthProvider } from './context';
 import AuthContext from './context/auth';;
 
 const App: React.FC = () => {
-  const context  = useContext(AuthContext);
-  console.log(context.signed, 'singed app')
+  const {signed}  = useContext(AuthContext);
+  const token = window.localStorage.getItem('@App:token')
+  console.log(signed, 'singed app')
 
   return (
     <QueryClientProvider client={queryClient} >
       <MantineProvider>
         <AuthProvider>
           <Router>
-            {context.signed
-              ? (
-                  <S.Container>
-                    <Header />
-                    <Aside />
-                    <S.Content>
-                      <AuthRoutes/>
-                    </S.Content>
-                  </S.Container>
-                )
+            {token !== null
+              ? 
+                <S.Container>
+                  <Header />
+                  <Aside />
+                  <S.Content>
+                    <AuthRoutes/>
+                  </S.Content>
+                </S.Container>
+                
               : <PublicRoutes />
             }
           </Router>

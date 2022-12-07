@@ -27,9 +27,9 @@ const Header: React.FC = () => {
             <button 
                 type="button"
                 onClick={() => {
-                    localStorage.removeItem("token");
-                    localStorage.removeItem("user");
-                    navigate('/')
+                    localStorage.removeItem("@App:user");
+                    localStorage.removeItem("@App:token");
+                    window.location.replace('/')
                 }}
             >
                 <p>Sair</p>

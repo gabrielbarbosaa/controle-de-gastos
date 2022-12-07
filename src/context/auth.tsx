@@ -27,9 +27,8 @@ export const AuthProvider: React.FC <IProps> = ({children}) => {
 
     const Logout = () => {
         setUser(null);
-    
-        sessionStorage.removeItem('@App:user');
-        sessionStorage.removeItem('App:token');
+        window.localStorage.removeItem('@App:user');
+        window.localStorage.removeItem('@App:token');
     };
 
     const { mutate: postAuthorize } = useMutation(useAuthorize, {
@@ -37,9 +36,9 @@ export const AuthProvider: React.FC <IProps> = ({children}) => {
             queryClient.invalidateQueries(['user'])
             setUser(resp.user);
             api.defaults.headers.Authorization = `Bearer ${resp.token}`;
-            localStorage.setItem('@App:user', JSON.stringify(resp.user));
-            localStorage.setItem('@App:token', resp.token);
-            console.log(resp)
+            window.localStorage.setItem('@App:user', JSON.stringify(resp.user));
+            window.localStorage.setItem('@App:token', resp.token);
+            window.location.replace('/dashboard')
         }
     });
 
