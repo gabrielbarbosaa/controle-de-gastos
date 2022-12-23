@@ -8,8 +8,29 @@ export const Container = styled.div`
     width: 100%;
     height: 100vh;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+
+    .container-card{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50%;
+    }
+
+    .content{
+        background-color: ${(props: any) => props.theme.colors.purple[0]};
+        width: 50%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+
+    .item {
+        
+    }
 `;
 
 export const Button = styled(ButtonMantine)`
